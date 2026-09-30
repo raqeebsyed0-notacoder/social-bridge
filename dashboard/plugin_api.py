@@ -207,14 +207,30 @@ async def auth_login(platform: str):
 
 @router.post("/preview")
 async def open_in_preview(payload: dict[str, Any] = Body(...)) -> dict[str, Any]:
-    """Open a URL in the headed persistent window (preview-rail helper)."""
-    url = str((payload or {}).get("url", ""))
+    """Open a URL in the desktop's in-app preview rail.
+
+    Same mechanism as newswire: emit the ``preview.open`` gateway event the
+    app's own open_preview tool uses (tools/desktop_ui.py emitter), broadcast
+    to live transports so it works from a REST context with no turn-bound
+    session. NOT server-side playwright — the server is headless.
+    """
+    from urllib.parse import urlsplit
+
+    url = str((payload or {}).get("url") or "").strip()
+    label = str((payload or {}).get("label") or "").strip()
     if not url.startswith(("http://", "https://")):
         raise HTTPException(status_code=400, detail="body.url must start with http(s)://")
+    host = (urlsplit(url).hostname or "").lower()
+    if host in ("localhost", "127.0.0.1", "::1") or host.startswith("169.254."):
+        raise HTTPException(status_code=400, detail="unsafe_url: loopback/link-local blocked")
     try:
-        return await browser_bridge.open_url_headed(url, BROWSER_DATA)
+        from tui_gateway.server import _broadcast_global_event
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"preview open failed: {e}")
+        raise HTTPException(status_code=500, detail=f"preview bus unavailable: {e}")
+    _broadcast_global_event(
+        "preview.open", {"url": url, "label": label or url}
+    )
+    return {"opened": url}
 
 
 # --- Search (live) ---
