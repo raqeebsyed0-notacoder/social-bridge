@@ -44,7 +44,7 @@ async def _get_context(browser_data: Path, headless: bool = True):
     assert HAS_PLAYWRIGHT, "playwright not installed"
     browser_data.mkdir(parents=True, exist_ok=True)
     pw = await async_playwright().start()
-    ctx = await pw.launch_persistent_context(
+    ctx = await pw.chromium.launch_persistent_context(
         user_data_dir=str(browser_data),
         headless=headless,
         viewport={"width": 1280, "height": 800},
