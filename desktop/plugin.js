@@ -84,21 +84,21 @@ function SettingsPane(){
       jsx('div',{style:{fontWeight:600, fontSize:'.9rem'}, children:'Browser Auth — X / LinkedIn (preview rail)'}),
       jsx('div',{className:`${ID}-hint`, children:'Click Login → opens in Hermes preview rail (permanent browser, like Newswire). Log in there with 1Password/vault. Agent will only use drive_preview/desktop_preview on that rail — no external Chrome. Close rail preview after login — cookies persist in browser_data for headless polling.'}),
       jsxs('div',{style:{display:'flex', gap:8, flexWrap:'wrap'}, children:[
-        jsxs('div',{style:{flex:'1 1 220px', border:'1px solid var(--ui-stroke-secondary)', borderRadius:6, padding:10, display:'flex', flexDirection:'column', gap:6}, children:[
-          jsxs('div',{style:{display:'flex', justifyContent:'space-between', alignItems:'center'}, children:[
+        jsxs('div',{style:{flex:'1 1 160px', border:'1px solid var(--ui-stroke-secondary)', borderRadius:6, padding:10, display:'flex', flexDirection:'column', gap:6}, children:[
+          jsxs('div',{style:{display:'flex', justifyContent:'space-between', alignItems:'center', flexWrap:'wrap', gap:4}, children:[
             jsx('span',{style:{fontWeight:600}, children:'X (x.com)'}),
             jsx('span',{style:{fontSize:'.7rem', padding:'2px 6px', borderRadius:99, background: authX.data?.logged_in ? 'var(--ui-success, #2d7)' : 'var(--ui-bg-elevated)', color: authX.data?.logged_in ? '#fff':'var(--ui-text-tertiary)'}, children: authX.isLoading?'…': authX.data?.logged_in?'Logged in':'Not logged in'})
           ]}),
           jsx('div',{className:`${ID}-hint`, children: authX.data?.error ? `Error: ${authX.data.error}` : 'Preview rail is the permanent browser — one login survives reboots.'}),
-          jsx('button',{onClick:()=> login.mutate('x'), disabled: login.isPending, style:{padding:'6px 10px', background:'var(--ui-accent)', color:'#fff', border:0, borderRadius:6, cursor:'pointer'}, children: login.isPending? 'Opening…':'Login X (preview rail)'}),
+          jsx('button',{onClick:()=> login.mutate('x'), disabled: login.isPending, style:{padding:'6px 10px', background:'var(--ui-accent)', color:'#fff', border:0, borderRadius:6, cursor:'pointer'}, children: login.isPending? 'Opening…':'Login X'}),
         ]}),
-        jsxs('div',{style:{flex:'1 1 220px', border:'1px solid var(--ui-stroke-secondary)', borderRadius:6, padding:10, display:'flex', flexDirection:'column', gap:6}, children:[
-          jsxs('div',{style:{display:'flex', justifyContent:'space-between', alignItems:'center'}, children:[
+        jsxs('div',{style:{flex:'1 1 160px', border:'1px solid var(--ui-stroke-secondary)', borderRadius:6, padding:10, display:'flex', flexDirection:'column', gap:6}, children:[
+          jsxs('div',{style:{display:'flex', justifyContent:'space-between', alignItems:'center', flexWrap:'wrap', gap:4}, children:[
             jsx('span',{style:{fontWeight:600}, children:'LinkedIn'}),
             jsx('span',{style:{fontSize:'.7rem', padding:'2px 6px', borderRadius:99, background: authLi.data?.logged_in ? 'var(--ui-success, #2d7)' : 'var(--ui-bg-elevated)', color: authLi.data?.logged_in ? '#fff':'var(--ui-text-tertiary)'}, children: authLi.isLoading?'…': authLi.data?.logged_in?'Logged in':'Not logged in'})
           ]}),
           jsx('div',{className:`${ID}-hint`, children: authLi.data?.error ? `Error: ${authLi.data.error}` : 'Preview rail is the permanent browser — 1Password/vault there.'}),
-          jsx('button',{onClick:()=> login.mutate('linkedin'), disabled: login.isPending, style:{padding:'6px 10px', background:'var(--ui-accent)', color:'#fff', border:0, borderRadius:6, cursor:'pointer'}, children: login.isPending? 'Opening…':'Login LinkedIn (preview rail)'}),
+          jsx('button',{onClick:()=> login.mutate('linkedin'), disabled: login.isPending, style:{padding:'6px 10px', background:'var(--ui-accent)', color:'#fff', border:0, borderRadius:6, cursor:'pointer'}, children: login.isPending? 'Opening…':'Login LinkedIn'}),
         ]}),
       ]}),
       login.isSuccess ? jsx('div',{className:`${ID}-hint`, style:{color:'var(--ui-accent)'}, children:'Opened in preview rail — log in there, then close preview. Status flips to Logged in.'}) : null,
