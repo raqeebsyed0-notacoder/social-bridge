@@ -1,0 +1,8 @@
+{
+  "name": "social-bridge",
+  "label": "Social Bridge",
+  "description": "Social research cache, watchlist, and refresh controls",
+  "icon": "Globe",
+  "version": "1.0.1",
+  "api": "plugin_api.py"
+}

@@ -1,0 +1,26 @@
+name: social-bridge
+version: "1.0.1"
+description: Hybrid social research — browser for X/LinkedIn (no API), API for IG/FB/YT/TikTok. Permanent desktop plugin like Newswire, no repeated login.
+author: Euphoria
+provides_tools:
+  - social_search
+  - social_read
+  - social_refresh
+  - social_post
+  - social_scrape
+provides_hooks:
+  - post_tool_call
+capabilities: []
+python_dependencies:
+  - "httpx>=0.28,<1"
+  - "playwright>=1.45,<2"
+  - "beautifulsoup4>=4.12,<5"
+config_schema:
+  poll_interval_seconds:
+    type: integer
+    default: 900
+    description: "Poll interval for watchlist (seconds, 300-3600)"
+  platforms_enabled:
+    type: array
+    default: ["x", "linkedin", "instagram", "youtube"]
+    description: "Enabled platforms"
